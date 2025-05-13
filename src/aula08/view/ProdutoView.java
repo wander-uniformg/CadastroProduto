@@ -21,6 +21,7 @@ public class ProdutoView extends javax.swing.JFrame {
     public ProdutoView() {
         initComponents();
         produtoController = new ProdutoController();
+        produtoController.listar();
     }
 
     /**
