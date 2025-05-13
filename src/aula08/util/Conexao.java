@@ -24,7 +24,7 @@ public class Conexao {
             String cs = "jdbc:mysql://localhost:3306/empresa";
             String user = "root";
             String pass = "root";
-            System.out.println("Realizando Conexão");
+            System.out.println("Conexão realizada com Sucesso");
             return DriverManager.getConnection(cs, user, pass);
         } catch(Exception ex) {            
             System.err.println("Erro ao conectar no banco");
