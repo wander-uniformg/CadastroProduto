@@ -6,7 +6,9 @@ package aula08.view;
 
 import aula08.controller.ProdutoController;
 import aula08.model.ProdutoModel;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,7 +23,23 @@ public class ProdutoView extends javax.swing.JFrame {
     public ProdutoView() {
         initComponents();
         produtoController = new ProdutoController();
-        produtoController.listar();
+        preencherTabela();
+    }
+    
+    private void preencherTabela() {
+        
+        List<ProdutoModel> produtos = produtoController.listar();
+        DefaultTableModel model = (DefaultTableModel) tbTabela.getModel();
+        model.setNumRows(0);
+        for(int i = 0; i < produtos.size(); i++) {
+            ProdutoModel produto = produtos.get(i);
+            model.addRow(new String[] {
+                String.valueOf(produto.getId()),
+                produto.getDescricao(),
+                String.valueOf(produto.getEstoque()),
+                String.valueOf(produto.getValor())
+            });
+        }
     }
 
     /**
@@ -44,6 +62,8 @@ public class ProdutoView extends javax.swing.JFrame {
         btInserir = new javax.swing.JButton();
         btEditar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbTabela = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,6 +85,21 @@ public class ProdutoView extends javax.swing.JFrame {
         btEditar.setText("Editar");
 
         btExcluir.setText("Excluir");
+
+        tbTabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Descrição", "Estoque", "Valor"
+            }
+        ));
+        tbTabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbTabelaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbTabela);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,8 +132,11 @@ public class ProdutoView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btExcluir)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                        .addComponent(btExcluir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,7 +160,9 @@ public class ProdutoView extends javax.swing.JFrame {
                     .addComponent(btInserir)
                     .addComponent(btEditar)
                     .addComponent(btExcluir))
-                .addContainerGap(299, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -137,7 +177,18 @@ public class ProdutoView extends javax.swing.JFrame {
         if(produtoController.inserir(modelo)) {
             JOptionPane.showMessageDialog(null, "Produto inserido com sucesso!");
         }
+        preencherTabela();
     }//GEN-LAST:event_btInserirActionPerformed
+
+    private void tbTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTabelaMouseClicked
+        
+        int linha = tbTabela.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) tbTabela.getModel();
+        tfId.setText((String) model.getValueAt(linha, 0));
+        tfDescricao.setText((String) model.getValueAt(linha, 1));       
+        tfEstoque.setText((String) model.getValueAt(linha, 2));
+        tfValor.setText((String) model.getValueAt(linha, 3));
+    }//GEN-LAST:event_tbTabelaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -178,10 +229,12 @@ public class ProdutoView extends javax.swing.JFrame {
     private javax.swing.JButton btEditar;
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btInserir;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbDescricao;
     private javax.swing.JLabel lbEstoque;
     private javax.swing.JLabel lbId;
     private javax.swing.JLabel lbValor;
+    private javax.swing.JTable tbTabela;
     private javax.swing.JTextField tfDescricao;
     private javax.swing.JTextField tfEstoque;
     private javax.swing.JTextField tfId;
