@@ -24,6 +24,26 @@ public class ProdutoView extends javax.swing.JFrame {
         initComponents();
         produtoController = new ProdutoController();
         preencherTabela();
+        configurarTextFields(false);
+        configurarBotoes(true);
+    }
+    
+    private void configurarTextFields(boolean active) {
+        
+        tfId.setEnabled(active);
+        tfDescricao.setEnabled(active);
+        tfValor.setEnabled(active);
+        tfEstoque.setEnabled(active);
+    }
+    
+    private void configurarBotoes(boolean active) {
+        
+        btInserir1.setEnabled(active);
+        btFechar.setEnabled(active);
+        btEditar1.setEnabled(!active);
+        btExcluir1.setEnabled(!active);
+        btSalvar.setEnabled(!active);
+        btCancelar.setEnabled(!active);
     }
     
     private void preencherTabela() {
@@ -64,6 +84,13 @@ public class ProdutoView extends javax.swing.JFrame {
         btExcluir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbTabela = new javax.swing.JTable();
+        btLimpar = new javax.swing.JButton();
+        btInserir1 = new javax.swing.JButton();
+        btEditar1 = new javax.swing.JButton();
+        btExcluir1 = new javax.swing.JButton();
+        btSalvar = new javax.swing.JButton();
+        btFechar = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,6 +138,30 @@ public class ProdutoView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbTabela);
 
+        btLimpar.setText("Limpar");
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
+
+        btInserir1.setText("Inserir");
+        btInserir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btInserir1ActionPerformed(evt);
+            }
+        });
+
+        btEditar1.setText("Editar");
+
+        btExcluir1.setText("Excluir");
+
+        btSalvar.setText("Salvar");
+
+        btFechar.setText("Fechar");
+
+        btCancelar.setText("Cancelar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -143,11 +194,28 @@ public class ProdutoView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btExcluir))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addComponent(btExcluir)
+                        .addGap(18, 18, 18)
+                        .addComponent(btLimpar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(btInserir1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btEditar1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btExcluir1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btFechar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,9 +238,18 @@ public class ProdutoView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btInserir)
                     .addComponent(btEditar)
-                    .addComponent(btExcluir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btExcluir)
+                    .addComponent(btLimpar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btInserir1)
+                    .addComponent(btEditar1)
+                    .addComponent(btExcluir1)
+                    .addComponent(btSalvar)
+                    .addComponent(btFechar)
+                    .addComponent(btCancelar))
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -189,6 +266,7 @@ public class ProdutoView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Produto inserido com sucesso!");
         }
         preencherTabela();
+        limparCampos();
     }//GEN-LAST:event_btInserirActionPerformed
 
     private void tbTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTabelaMouseClicked
@@ -225,6 +303,20 @@ public class ProdutoView extends javax.swing.JFrame {
         preencherTabela();
     }//GEN-LAST:event_btExcluirActionPerformed
 
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        limparCampos();
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btInserir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserir1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btInserir1ActionPerformed
+
+    private void limparCampos() {
+        tfId.setText("");
+        tfDescricao.setText("");
+        tfEstoque.setText("");
+        tfValor.setText("");
+    }
     /**
      * @param args the command line arguments
      */
@@ -261,9 +353,16 @@ public class ProdutoView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCancelar;
     private javax.swing.JButton btEditar;
+    private javax.swing.JButton btEditar1;
     private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btExcluir1;
+    private javax.swing.JButton btFechar;
     private javax.swing.JButton btInserir;
+    private javax.swing.JButton btInserir1;
+    private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btSalvar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbDescricao;
     private javax.swing.JLabel lbEstoque;
