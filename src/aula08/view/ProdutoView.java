@@ -30,7 +30,7 @@ public class ProdutoView extends javax.swing.JFrame {
     
     private void configurarTextFields(boolean active) {
         
-        tfId.setEnabled(active);
+        tfId.setEnabled(false);
         tfDescricao.setEnabled(active);
         tfValor.setEnabled(active);
         tfEstoque.setEnabled(active);
@@ -153,14 +153,39 @@ public class ProdutoView extends javax.swing.JFrame {
         });
 
         btEditar1.setText("Editar");
+        btEditar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditar1ActionPerformed(evt);
+            }
+        });
 
         btExcluir1.setText("Excluir");
+        btExcluir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluir1ActionPerformed(evt);
+            }
+        });
 
         btSalvar.setText("Salvar");
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSalvarActionPerformed(evt);
+            }
+        });
 
         btFechar.setText("Fechar");
+        btFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFecharActionPerformed(evt);
+            }
+        });
 
         btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -277,6 +302,12 @@ public class ProdutoView extends javax.swing.JFrame {
         tfDescricao.setText((String) model.getValueAt(linha, 1));       
         tfEstoque.setText((String) model.getValueAt(linha, 2));
         tfValor.setText((String) model.getValueAt(linha, 3));
+        
+        btEditar1.setEnabled(true);
+        btExcluir1.setEnabled(true);
+        btCancelar.setEnabled(true);
+        btInserir1.setEnabled(false);
+        btFechar.setEnabled(false);
     }//GEN-LAST:event_tbTabelaMouseClicked
 
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
@@ -308,8 +339,73 @@ public class ProdutoView extends javax.swing.JFrame {
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btInserir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserir1ActionPerformed
-        // TODO add your handling code here:
+        
+        tfDescricao.setEnabled(true);
+        tfEstoque.setEnabled(true);
+        tfValor.setEnabled(true);
+        
+        btInserir1.setEnabled(false);
+        btFechar.setEnabled(false);
+        btSalvar.setEnabled(true);
+        btCancelar.setEnabled(true);
+        tbTabela.setEnabled(false);
+        limparCampos();
     }//GEN-LAST:event_btInserir1ActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        configurarTextFields(false);
+        configurarBotoes(true);
+        tbTabela.setEnabled(true);
+        limparCampos();
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void btFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFecharActionPerformed
+        dispose();
+    }//GEN-LAST:event_btFecharActionPerformed
+
+    private void btExcluir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluir1ActionPerformed
+                
+        ProdutoModel produto = new ProdutoModel();
+        produto.setId(Integer.parseInt(tfId.getText()));
+        produto.setDescricao(tfDescricao.getText());
+        produto.setEstoque(Integer.parseInt(tfEstoque.getText()));
+        produto.setValor(Float.parseFloat(tfValor.getText()));
+        if (produtoController.excluir(produto)) {
+            JOptionPane.showMessageDialog(null, "Produto excluido com Sucesso");
+        }
+        preencherTabela();
+        
+        btEditar1.setEnabled(false);
+        btExcluir1.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btInserir1.setEnabled(true);
+        btFechar.setEnabled(true);
+        limparCampos();
+    }//GEN-LAST:event_btExcluir1ActionPerformed
+
+    private void btEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditar1ActionPerformed
+        
+        btEditar1.setEnabled(false);
+        btSalvar.setEnabled(true);
+        btExcluir1.setEnabled(false);
+        configurarTextFields(true);
+        
+    }//GEN-LAST:event_btEditar1ActionPerformed
+
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        
+        ProdutoModel produto = new ProdutoModel();       
+        produto.setDescricao(tfDescricao.getText());
+        produto.setValor(Float.parseFloat(tfValor.getText()));
+        produto.setEstoque(Integer.parseInt(tfEstoque.getText()));
+        if (tfId.getText().equals("")) {
+            produtoController.inserir(produto);
+        } else {
+            produto.setId(Integer.parseInt(tfId.getText()));
+            produtoController.atualizar(produto);
+        }
+        
+    }//GEN-LAST:event_btSalvarActionPerformed
 
     private void limparCampos() {
         tfId.setText("");

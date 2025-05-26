@@ -227,26 +227,41 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btEditar1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btExcluir1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Excluir"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btExcluir1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btSalvar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Salvar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btSalvarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btFechar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fechar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btFecharActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btCancelar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCancelarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
