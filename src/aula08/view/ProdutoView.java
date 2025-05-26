@@ -6,7 +6,9 @@ package aula08.view;
 
 import aula08.controller.ProdutoController;
 import aula08.model.ProdutoModel;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,7 +23,43 @@ public class ProdutoView extends javax.swing.JFrame {
     public ProdutoView() {
         initComponents();
         produtoController = new ProdutoController();
-        produtoController.listar();
+        preencherTabela();
+        configurarTextFields(false);
+        configurarBotoes(true);
+    }
+    
+    private void configurarTextFields(boolean active) {
+        
+        tfId.setEnabled(false);
+        tfDescricao.setEnabled(active);
+        tfValor.setEnabled(active);
+        tfEstoque.setEnabled(active);
+    }
+    
+    private void configurarBotoes(boolean active) {
+        
+        btInserir1.setEnabled(active);
+        btFechar.setEnabled(active);
+        btEditar1.setEnabled(!active);
+        btExcluir1.setEnabled(!active);
+        btSalvar.setEnabled(!active);
+        btCancelar.setEnabled(!active);
+    }
+    
+    private void preencherTabela() {
+        
+        List<ProdutoModel> produtos = produtoController.listar();
+        DefaultTableModel model = (DefaultTableModel) tbTabela.getModel();
+        model.setNumRows(0);
+        for(int i = 0; i < produtos.size(); i++) {
+            ProdutoModel produto = produtos.get(i);
+            model.addRow(new String[] {
+                String.valueOf(produto.getId()),
+                produto.getDescricao(),
+                String.valueOf(produto.getEstoque()),
+                String.valueOf(produto.getValor())
+            });
+        }
     }
 
     /**
@@ -44,6 +82,15 @@ public class ProdutoView extends javax.swing.JFrame {
         btInserir = new javax.swing.JButton();
         btEditar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbTabela = new javax.swing.JTable();
+        btLimpar = new javax.swing.JButton();
+        btInserir1 = new javax.swing.JButton();
+        btEditar1 = new javax.swing.JButton();
+        btExcluir1 = new javax.swing.JButton();
+        btSalvar = new javax.swing.JButton();
+        btFechar = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,8 +110,82 @@ public class ProdutoView extends javax.swing.JFrame {
         });
 
         btEditar.setText("Editar");
+        btEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarActionPerformed(evt);
+            }
+        });
 
         btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
+
+        tbTabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Descrição", "Estoque", "Valor"
+            }
+        ));
+        tbTabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbTabelaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbTabela);
+
+        btLimpar.setText("Limpar");
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
+
+        btInserir1.setText("Inserir");
+        btInserir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btInserir1ActionPerformed(evt);
+            }
+        });
+
+        btEditar1.setText("Editar");
+        btEditar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditar1ActionPerformed(evt);
+            }
+        });
+
+        btExcluir1.setText("Excluir");
+        btExcluir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluir1ActionPerformed(evt);
+            }
+        });
+
+        btSalvar.setText("Salvar");
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSalvarActionPerformed(evt);
+            }
+        });
+
+        btFechar.setText("Fechar");
+        btFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFecharActionPerformed(evt);
+            }
+        });
+
+        btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,31 +195,52 @@ public class ProdutoView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbDescricao)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
                                 .addComponent(lbEstoque)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
+                                .addComponent(tfEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lbValor)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfValor))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbId)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbDescricao)
+                                    .addComponent(lbId, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(btInserir)
                         .addGap(18, 18, 18)
                         .addComponent(btEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btExcluir)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                        .addComponent(btExcluir)
+                        .addGap(18, 18, 18)
+                        .addComponent(btLimpar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(btInserir1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btEditar1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btExcluir1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btFechar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,8 +263,19 @@ public class ProdutoView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btInserir)
                     .addComponent(btEditar)
-                    .addComponent(btExcluir))
-                .addContainerGap(299, Short.MAX_VALUE))
+                    .addComponent(btExcluir)
+                    .addComponent(btLimpar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btInserir1)
+                    .addComponent(btEditar1)
+                    .addComponent(btExcluir1)
+                    .addComponent(btSalvar)
+                    .addComponent(btFechar)
+                    .addComponent(btCancelar))
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -137,8 +290,129 @@ public class ProdutoView extends javax.swing.JFrame {
         if(produtoController.inserir(modelo)) {
             JOptionPane.showMessageDialog(null, "Produto inserido com sucesso!");
         }
+        preencherTabela();
+        limparCampos();
     }//GEN-LAST:event_btInserirActionPerformed
 
+    private void tbTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTabelaMouseClicked
+        
+        int linha = tbTabela.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) tbTabela.getModel();
+        tfId.setText((String) model.getValueAt(linha, 0));
+        tfDescricao.setText((String) model.getValueAt(linha, 1));       
+        tfEstoque.setText((String) model.getValueAt(linha, 2));
+        tfValor.setText((String) model.getValueAt(linha, 3));
+        
+        btEditar1.setEnabled(true);
+        btExcluir1.setEnabled(true);
+        btCancelar.setEnabled(true);
+        btInserir1.setEnabled(false);
+        btFechar.setEnabled(false);
+    }//GEN-LAST:event_tbTabelaMouseClicked
+
+    private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
+        ProdutoModel produto = new ProdutoModel();
+        produto.setId(Integer.parseInt(tfId.getText()));
+        produto.setDescricao(tfDescricao.getText());
+        produto.setEstoque(Integer.parseInt(tfEstoque.getText()));
+        produto.setValor(Float.parseFloat(tfValor.getText()));
+        if (produtoController.atualizar(produto)) {
+            JOptionPane.showMessageDialog(null, "Produto atualizado com Sucesso");
+        }
+        preencherTabela();
+    }//GEN-LAST:event_btEditarActionPerformed
+
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        ProdutoModel produto = new ProdutoModel();
+        produto.setId(Integer.parseInt(tfId.getText()));
+        produto.setDescricao(tfDescricao.getText());
+        produto.setEstoque(Integer.parseInt(tfEstoque.getText()));
+        produto.setValor(Float.parseFloat(tfValor.getText()));
+        if (produtoController.excluir(produto)) {
+            JOptionPane.showMessageDialog(null, "Produto excluir com Sucesso");
+        }
+        preencherTabela();
+    }//GEN-LAST:event_btExcluirActionPerformed
+
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        limparCampos();
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btInserir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserir1ActionPerformed
+        
+        tfDescricao.setEnabled(true);
+        tfEstoque.setEnabled(true);
+        tfValor.setEnabled(true);
+        
+        btInserir1.setEnabled(false);
+        btFechar.setEnabled(false);
+        btSalvar.setEnabled(true);
+        btCancelar.setEnabled(true);
+        tbTabela.setEnabled(false);
+        limparCampos();
+    }//GEN-LAST:event_btInserir1ActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        configurarTextFields(false);
+        configurarBotoes(true);
+        tbTabela.setEnabled(true);
+        limparCampos();
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void btFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFecharActionPerformed
+        dispose();
+    }//GEN-LAST:event_btFecharActionPerformed
+
+    private void btExcluir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluir1ActionPerformed
+                
+        ProdutoModel produto = new ProdutoModel();
+        produto.setId(Integer.parseInt(tfId.getText()));
+        produto.setDescricao(tfDescricao.getText());
+        produto.setEstoque(Integer.parseInt(tfEstoque.getText()));
+        produto.setValor(Float.parseFloat(tfValor.getText()));
+        if (produtoController.excluir(produto)) {
+            JOptionPane.showMessageDialog(null, "Produto excluido com Sucesso");
+        }
+        preencherTabela();
+        
+        btEditar1.setEnabled(false);
+        btExcluir1.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btInserir1.setEnabled(true);
+        btFechar.setEnabled(true);
+        limparCampos();
+    }//GEN-LAST:event_btExcluir1ActionPerformed
+
+    private void btEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditar1ActionPerformed
+        
+        btEditar1.setEnabled(false);
+        btSalvar.setEnabled(true);
+        btExcluir1.setEnabled(false);
+        configurarTextFields(true);
+        
+    }//GEN-LAST:event_btEditar1ActionPerformed
+
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        
+        ProdutoModel produto = new ProdutoModel();       
+        produto.setDescricao(tfDescricao.getText());
+        produto.setValor(Float.parseFloat(tfValor.getText()));
+        produto.setEstoque(Integer.parseInt(tfEstoque.getText()));
+        if (tfId.getText().equals("")) {
+            produtoController.inserir(produto);
+        } else {
+            produto.setId(Integer.parseInt(tfId.getText()));
+            produtoController.atualizar(produto);
+        }
+        
+    }//GEN-LAST:event_btSalvarActionPerformed
+
+    private void limparCampos() {
+        tfId.setText("");
+        tfDescricao.setText("");
+        tfEstoque.setText("");
+        tfValor.setText("");
+    }
     /**
      * @param args the command line arguments
      */
@@ -175,13 +449,22 @@ public class ProdutoView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCancelar;
     private javax.swing.JButton btEditar;
+    private javax.swing.JButton btEditar1;
     private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btExcluir1;
+    private javax.swing.JButton btFechar;
     private javax.swing.JButton btInserir;
+    private javax.swing.JButton btInserir1;
+    private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btSalvar;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbDescricao;
     private javax.swing.JLabel lbEstoque;
     private javax.swing.JLabel lbId;
     private javax.swing.JLabel lbValor;
+    private javax.swing.JTable tbTabela;
     private javax.swing.JTextField tfDescricao;
     private javax.swing.JTextField tfEstoque;
     private javax.swing.JTextField tfId;
