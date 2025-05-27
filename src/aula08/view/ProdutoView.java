@@ -396,6 +396,7 @@ public class ProdutoView extends javax.swing.JFrame {
         
         ProdutoModel produto = new ProdutoModel();       
         produto.setDescricao(tfDescricao.getText());
+        
         produto.setValor(Float.parseFloat(tfValor.getText()));
         produto.setEstoque(Integer.parseInt(tfEstoque.getText()));
         if (tfId.getText().equals("")) {
