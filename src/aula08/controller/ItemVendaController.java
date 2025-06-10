@@ -5,8 +5,6 @@
 package aula08.controller;
 
 import aula08.model.ItemVendaModel;
-import aula08.model.ProdutoModel;
-import aula08.model.VendaModel;
 import aula08.util.Conexao;
 import java.util.List;
 import java.sql.*;
